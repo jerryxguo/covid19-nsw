@@ -1,6 +1,6 @@
 <div class="container-fluid" style="margin-top:2rem;">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12" style="height: 520px">
       <div class="float-right bottom-line">
         <span>
           <button class="days-button" (click)="onButtonClick(-1)"><i class="fas fa-angle-left"></i></button>
@@ -17,7 +17,7 @@
           </nav>
         </li>
       </ul>
-      <div class="tab-content" id="myTabContent" style="width: 100%; height: 430px">
+      <div class="tab-content" id="myTabContent" style="width: 100%;">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" style="background:#fff;border: 1px solid #dee2e6;border-top: 0px solid transparent;">
           <div class="row" style="padding-top: 1em">
             <div *ngIf="selectedView!=''" class="col-12" >
@@ -43,6 +43,11 @@
         </div>
       </div>
     </div>
-    <p style="text-align:center; margin:auto">Free for commercial or non-commercial use with attribution and link to www.supervit.net.</p>
   </div>
+</div>
+<div>
+  <p style="text-align:center; margin:auto">
+    Free for commercial or non-commercial use with attribution and link to
+    <span style="text-decoration:underline;"><a href="http://www.supervit.net/" target="_blank" data-content="http://www.supervit.net/" data-type="external" rel="noopener">www.supervit.net</a></span>
+  </p>
 </div>
