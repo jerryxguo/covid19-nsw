@@ -112,6 +112,11 @@ select:focus {
     box-shadow: none;
 }
 
+.bottom-line {
+    margin-top: 9px;
+    border-bottom: 1px solid #dfe1e5;
+}
+
 .select2-input {
     text-indent: 2em;
     width: 100%;
