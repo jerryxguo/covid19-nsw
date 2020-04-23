@@ -1,0 +1,12 @@
+.breadcrumb-item.active>a {
+    color: #999 !important;
+    pointer-events: none;
+}
+
+.inactivebg {
+    opacity: 0.1;
+}
+
+.activebg {
+    opacity: 1;
+}
