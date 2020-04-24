@@ -2,6 +2,12 @@
     margin: 10px;
 }
 
+@media screen and (max-width:767px) {
+    .nav-tabs>li {
+        width: 100%;
+    }
+}
+
 
 /* Style the tab */
 
@@ -45,11 +51,11 @@ nav:hover {
 }
 
 nav {
-    color: #FC6B33;
+    color: #495057;
 }
 
-nav:active {
-    color: #495057;
+.nav-link.active {
+    color: #FC6B33;
 }
 
 .router-link-active {
@@ -84,6 +90,22 @@ nav[ng-reflect-router-link] {
     width: 482px;
 }
 
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 input,
 select:focus {
     outline: none !important;
@@ -93,6 +115,10 @@ select:focus {
 
 .capitalize {
     text-transform: capitalize;
+}
+
+.days-group {
+    padding-top: 8px;
 }
 
 .days-button {
@@ -105,16 +131,20 @@ select:focus {
     margin: auto;
     color: #FC6B33;
     text-align: center;
-    padding: 4px;
-    width: 80px;
+    width: 22px;
     background-color: #fff;
     border: none;
     box-shadow: none;
 }
 
-.bottom-line {
-    margin-top: 9px;
-    border-bottom: 1px solid #dfe1e5;
+.input-unit {
+    font-size: 16px;
+    margin: auto;
+    color: #FC6B33;
+    text-align: left;
+    background-color: #fff;
+    border: none;
+    box-shadow: none;
 }
 
 .select2-input {

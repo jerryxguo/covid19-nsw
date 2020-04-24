@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 import { Subscription, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -23,19 +23,21 @@ export class CaseListComponent implements OnInit, OnDestroy {
 
   private daysChanged: Subject<void> = new Subject<void>();
   private delayDaysSubscription: Subscription;
-  private days = environment.days;
   private daysChange = 0;
+
+  public min = environment.min;
+  public max = environment.max;
+  public days = 0;
   public placeholder = "";
   public selectedView  = "";
   public genres = environment.genres;
 
   public options: string[];
   public filterText = "";
-  public displayDays ="";
   public showOptions = false;
 
 
-  constructor(private dataService: DataService, private breadcrumbService: BreadcrumbService){}
+  constructor(private cdr: ChangeDetectorRef, private dataService: DataService, private breadcrumbService: BreadcrumbService){}
 
   ngOnInit() {
     this.updateFocus();
@@ -63,19 +65,18 @@ export class CaseListComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.onDayschange();
         });
+    this.days = this.dataService.getDays();
     this.daysChange = 0;
     this.options = [];
-    this.displayDays = this.days + " Days"
   }
 
   onButtonClick(index){
 
-    if((index < 0 && this.days > environment.days/2) ||
-      (index> 0 && this.days < environment.days * 2)) {
+    if((index < 0 && this.days > this.min) ||
+      (index> 0 && this.days < this.max)) {
 
         this.daysChange = this.daysChange + index;
         this.days = this.days + index;
-        this.displayDays = this.days + " Days"
         this.dataService.setDays(this.days);
     }
     this.daysChanged.next();
@@ -86,6 +87,21 @@ export class CaseListComponent implements OnInit, OnDestroy {
         this.getCases();
         this.daysChange = 0;
     }
+  }
+
+  updateDays(){
+
+    setTimeout(function(itself){
+      if(itself.days>itself.max){
+        itself.days = itself.max;
+      } else if (itself.days<itself.min){
+        itself.days = itself.min;
+      }
+      itself.dataService.setDays(itself.days);
+      itself.getCases();
+      itself.daysChange = 0;
+    }, 500, this);
+
   }
 
   onInputAction(){
@@ -147,10 +163,11 @@ export class CaseListComponent implements OnInit, OnDestroy {
         this.placeholder = this.genres[i].name;
       }
     }
-    if(this.selectedView==""){
+    if(this.selectedView=="state"){
       //state government
       this.getCases();
     }
   }
 }
+
 
