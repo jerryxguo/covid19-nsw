@@ -22,7 +22,7 @@ export class StateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.caseSubscription = this.dataService.caseChange.subscribe((result: DataModel) => {
-      if(result.field==""){
+      if(result.field=="state"){
         this.result = result;
         this.updateCharts()
       }

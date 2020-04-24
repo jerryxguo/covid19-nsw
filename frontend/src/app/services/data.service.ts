@@ -28,6 +28,10 @@ export class DataService {
     this.days = days;
   }
 
+  public getDays(){
+    return this.days;
+  }
+
   public getOptions(field:string, query: string){
     const header = new HttpHeaders({'Content-Type': 'application/json'});
     var data = {
@@ -39,6 +43,9 @@ export class DataService {
     data["q"][field]=query.split(" ")[0]+":*";
     this.http.post<any>(this.baseUrl, data, {headers: header}).subscribe(
       (response) => {
+        if (response==null){
+          return;
+        }
         let options = [];
         response.forEach(function(record:any){
           options.push(record[field]);
@@ -60,12 +67,17 @@ export class DataService {
         "limit": this.limit,
         "filters":{}
       };
-    if(field!=""){
+    if(field!="state"){
+      if(fieldValue == ""){
+        return;
+      }
       data["filters"][field]= [fieldValue.toString()];
     }
     this.http.post<any>(this.baseUrl, data, {headers: header}).subscribe(
       (response) => {
-
+        if (response==null){
+          return;
+        }
         let records : DisplayModel[]= [];
         let days = this.days;
         let start = new Date();

@@ -12,7 +12,7 @@ export const environment = {
   genres: [
     {
       "name": "state",
-      "field": ""
+      "field": "state"
     },
     {
       "name": "local-government",
@@ -25,7 +25,9 @@ export const environment = {
   ],
   resourceId:"21304414-1ff1-4243-a5d2-f52778048b29",
   limit: 10000,
-  days: 40,
+  min: 14,
+  days: 21,
+  max: 63,
   token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjI0MzQ2NzAzOTgsImp0aSI6InVzZXIiLCJpc3MiOiJpc3N1ZXIifQ.MSys5QXzjp4_jBEMXC9uxfXAXg2qxg120Q2Zvs4BDCU",
 };
 
