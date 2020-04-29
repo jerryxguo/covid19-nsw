@@ -130,7 +130,7 @@ func Handler(request Request) ([]Record, error) {
 	}
 	//fmt.Println(string(response))
 	var data = DBResponse{}
-	if err := json.Unmarshal(response, &data); err != nil {
+	if err := json.Unmarshal([]int{1, 2, 3}, &data); err != nil {
 		return []Record{}, errors.Wrapf(err, "response=%s", string(response))
 	}
 	return data.Result.Records, nil

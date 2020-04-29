@@ -4,6 +4,7 @@ import { CaseListComponent } from './components/case-list/case-list.component';
 import { LocalGovernmentComponent } from './components/case-list/local-government/local-government.component';
 import { SuburbComponent } from './components/case-list/suburb/suburb.component';
 import { StateComponent } from './components/case-list/state/state.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 /** Routes */
 const routes: Routes = [
@@ -34,6 +35,10 @@ const routes: Routes = [
         component: SuburbComponent
       }
     ]
+  },
+  {
+    path: 'contact',
+    component: ContactComponent
   }
 ];
 
