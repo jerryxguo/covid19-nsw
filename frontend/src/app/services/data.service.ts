@@ -15,6 +15,8 @@ export class DataService {
   private limit: number = environment.limit;
   private resourceId: string = environment.resourceId;
   private days = environment.days;
+  private getData: string = environment.urls.getdata;
+  private contact: string = environment.urls.contact;
 
   optionChange: Subject<string[]>;
   caseChange: Subject<DataModel>;
@@ -41,7 +43,7 @@ export class DataService {
       "q":{}
     };
     data["q"][field]=query.split(" ")[0]+":*";
-    this.http.post<any>(this.baseUrl, data, {headers: header}).subscribe(
+    this.http.post<any>(this.baseUrl + this.getData, data, {headers: header}).subscribe(
       (response) => {
         if (response==null){
           return;
@@ -73,7 +75,7 @@ export class DataService {
       }
       data["filters"][field]= [fieldValue.toString()];
     }
-    this.http.post<any>(this.baseUrl, data, {headers: header}).subscribe(
+    this.http.post<any>(this.baseUrl + this.getData, data, {headers: header}).subscribe(
       (response) => {
         if (response==null){
           return;
@@ -130,4 +132,17 @@ export class DataService {
       }
     );
   }
+
+  public contactUs(sender:string, content:string, firstName:string, lastName: string){
+    const header = new HttpHeaders({'Content-Type': 'application/json'});
+    var data = {
+      "sender": sender,
+      "body": content,
+      "firstName": firstName,
+      "lastName": lastName,
+      "subject": "covid-19"
+    };
+    return this.http.post<any>(this.baseUrl + this.contact, data, {headers: header});
+  }
+
 }

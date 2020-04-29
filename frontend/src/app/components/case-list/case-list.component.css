@@ -8,6 +8,18 @@
     }
 }
 
+.display-content {
+    height: 520px;
+    width: 100%;
+}
+
+@media (max-width:767px) {
+    .display-content {
+        height: 620px;
+        width: 100%;
+    }
+}
+
 
 /* Style the tab */
 

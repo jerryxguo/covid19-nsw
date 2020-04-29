@@ -1,0 +1,30 @@
+<div class="container-fluid" style="width: 400px; margin-top:2rem;">
+    <div  *ngIf="!submitted" style="margin:auto;" >
+        <div data-packed="false" style="min-height: 17px; pointer-events: none;" data-min-height="17">
+            <h5 class="font_5" style="font-size:20px;">
+                <span style="font-size:16px;color:#414141;">Feedback, enquiries, requests</span>
+            </h5>
+        </div>
+        <div style="height: 43px;">
+            <input [(ngModel)]="firstName" type="text" style="width:100%; padding-left:40px" value="" required="" placeholder="First Name" maxlength="100">
+        </div>
+        <div style="height: 43px;">
+            <input [(ngModel)]="lastName" type="text" style="width:100%; padding-left:40px" value="" required="" placeholder="Last Name" maxlength="100">
+        </div>
+        <div style="height: 43px;">
+            <input [(ngModel)]="sender" type="email" style="width:100%; padding-left:40px" value="" required="" placeholder="Email" pattern="^.+@.+\.[a-zA-Z]{2,63}$" maxlength="250">
+        </div>
+        <div data-state="valid">
+            <textarea [(ngModel)]="content" style="width:100%; padding-left:40px;padding-right:10px" placeholder="Add a message">
+            </textarea>
+        </div>
+        <div class="float-right" data-align="center" style="cursor: pointer; height: 38px; min-height: 19px;">
+            <button [disabled]="submitting" (click)= "onSubmit()" style="cursor:pointer">Submit</button>
+        </div>
+    </div>
+     <div *ngIf="submitted" style="min-height: 120px; margin:auto;" data-min-height="12">
+        <p style="text-align:center; font-size:20px;">
+            Thank you. Your message has been sent. <span> <button style="text-align:center; font-size:14px" (click)="goBack()">Go Back</button></span>
+        </p>
+    </div>
+</div>
