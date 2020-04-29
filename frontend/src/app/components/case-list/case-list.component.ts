@@ -37,7 +37,7 @@ export class CaseListComponent implements OnInit, OnDestroy {
   public showOptions = false;
 
 
-  constructor(private cdr: ChangeDetectorRef, private dataService: DataService, private breadcrumbService: BreadcrumbService){}
+  constructor(private dataService: DataService, private breadcrumbService: BreadcrumbService){}
 
   ngOnInit() {
     this.updateFocus();

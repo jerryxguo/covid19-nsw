@@ -12,6 +12,7 @@ import { SuburbComponent } from './components/case-list/suburb/suburb.component'
 import { HeaderComponent } from './components/header/header.component';
 import { ChartsComponent } from './components/case-list/charts/charts.component';
 import { StateComponent } from './components/case-list/state/state.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { StateComponent } from './components/case-list/state/state.component';
     SuburbComponent,
     HeaderComponent,
     ChartsComponent,
-    StateComponent
+    StateComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,

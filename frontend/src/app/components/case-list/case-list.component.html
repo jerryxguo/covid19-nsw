@@ -1,6 +1,6 @@
 <div class="container-fluid" style="margin-top:2rem;">
   <div class="row">
-    <div class="col-12" style="height: 520px">
+    <div class="col-12" class ="display-content" >
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" *ngFor="let g of genres">
           <nav class="nav-link" [ngClass]="{'active':selectedView===g.field}" data-toggle="tab" role="tab" aria-selected="true" [routerLink]="['/case-list', g.name]" routerLinkActive="router-link-active">
@@ -43,6 +43,11 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="col-12">
+      <p style="text-align:center; margin:auto">
+        <span style="text-decoration:underline;"><a href="#/contact" target="_self">Contact us here</a></span>
+      </p>
     </div>
   </div>
 </div>
