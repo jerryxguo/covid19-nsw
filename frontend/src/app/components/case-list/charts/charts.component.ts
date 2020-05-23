@@ -18,6 +18,7 @@ export class ChartsComponent implements OnDestroy, AfterViewInit {
   chartTitle: any;
   showNoDataAvailable = false;
   chartData : any = [];
+  isShown = false;
 
   constructor(private zone: NgZone) {}
 
@@ -100,6 +101,15 @@ export class ChartsComponent implements OnDestroy, AfterViewInit {
     this.zone.runOutsideAngular(()=>{
       this.chartTitle.text = title
     });
+  }
+
+
+  showChart(){
+    this.isShown = true;
+  }
+
+  hideChart(){
+    this.isShown = false;
   }
 
 }

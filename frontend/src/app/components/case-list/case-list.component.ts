@@ -4,8 +4,10 @@ import { Subscription, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
+import { ChartsComponent } from './charts/charts.component';
 
-
+const CURRENT_POSTCODE = "currentPostcode";
+const CURRENT_LOCALGOV = "currentLocalGovLocalGov";
 
 @Component({
   selector: 'app-case-list',
@@ -15,6 +17,10 @@ import { environment } from 'src/environments/environment';
 
 export class CaseListComponent implements OnInit, OnDestroy {
 
+  
+  @ViewChild(ChartsComponent, {static: true})
+  chartsChild: ChartsComponent;
+  
   private breadcrumSubscription: Subscription;
   private modelChanged: Subject<void> = new Subject<void>();
   private delaySubscription: Subscription;
@@ -68,6 +74,10 @@ export class CaseListComponent implements OnInit, OnDestroy {
     this.days = this.dataService.getDays();
     this.daysChange = 0;
     this.options = [];
+  }
+
+  onOutletLoaded(component) {
+    component.chartsChild = this.chartsChild;
   }
 
   onButtonClick(index){
@@ -133,6 +143,11 @@ export class CaseListComponent implements OnInit, OnDestroy {
     } else if (index < this.options.length){
       this.filterText = this.options[index];
       if(this.filterText != "" && this.hasOption(this.filterText)){
+        if (this.selectedView=="postcode"){
+          localStorage.setItem(CURRENT_POSTCODE,this.filterText);          
+        } else if (this.selectedView=="lga_name19"){
+          localStorage.setItem(CURRENT_LOCALGOV,this.filterText);           
+        }
         this.getCases();
       }
     } else {
@@ -166,6 +181,18 @@ export class CaseListComponent implements OnInit, OnDestroy {
     if(this.selectedView=="state"){
       //state government
       this.getCases();
+    } else if (this.selectedView=="postcode"){
+      this.filterText = localStorage.getItem(CURRENT_POSTCODE);
+      if(this.filterText!="" && this.filterText!=null && this.filterText!=undefined){
+        this.getCases();
+      }
+
+    } else if (this.selectedView=="lga_name19"){
+      this.filterText = localStorage.getItem(CURRENT_LOCALGOV);
+      if(this.filterText!="" && this.filterText!=null && this.filterText!=undefined){
+        this.getCases();
+      }
+
     }
   }
 }

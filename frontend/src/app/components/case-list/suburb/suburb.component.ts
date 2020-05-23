@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { ChartsComponent } from '../charts/charts.component';
 import { Subscription } from 'rxjs';
 import { DataModel} from 'src/app/models/data';
@@ -15,20 +15,22 @@ import { environment } from 'src/environments/environment';
 export class SuburbComponent implements OnInit, OnDestroy {
 
 
-  @ViewChild(ChartsComponent, {static: true})
-  chartsChild: ChartsComponent;
+  //@ViewChild(ChartsComponent, {static: true})
+  @Input() chartsChild: ChartsComponent;
 
   private caseSubscription: Subscription;
   public result : DataModel;
 
 
-  constructor(private dataService: DataService, ) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
+   
     this.caseSubscription = this.dataService.caseChange.subscribe((result: DataModel) => {
       if(result.field=="postcode"){
         this.result = result;
-        this.updateCharts()
+        this.updateCharts();
+        this.chartsChild.showChart();
       }
     });
 
@@ -36,6 +38,7 @@ export class SuburbComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.caseSubscription.unsubscribe();
+    this.chartsChild.hideChart();
   }
 
 

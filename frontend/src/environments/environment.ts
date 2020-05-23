@@ -10,7 +10,7 @@ export const environment = {
   production: false,
   api: "https://lu63s4ejp0.execute-api.ap-southeast-2.amazonaws.com/api",
   urls:{
-    "getdata":"/getdata",
+    "getdata":"/test",
     "contact":"/contact"
   },
   genres: [
