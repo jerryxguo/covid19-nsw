@@ -21,15 +21,7 @@ exports.handler = function (event, context, callback) {
         }
         let requestBody = event;
         console.log(JSON.stringify(requestBody));
-        if ("q" in requestBody && ("lga_name19" in requestBody.q ||"postcode" in requestBody.q) && "fields" in requestBody){
-
-        } else if("filters" in requestBody){
-        }
-        else{
-            let err = new Error('requestBody is invalid!');            
-            //console.log(err);
-            throw err;
-        }
+        
         //console.log(URL);
         dataAgent.fetchData(requestBody)
         .then(function(response) {
@@ -40,13 +32,14 @@ exports.handler = function (event, context, callback) {
         })
         .catch(err => {
             cloudMetrics.LogHandlerFail(lambda_name)
+            console.log('ignore this event');
             console.log(JSON.stringify(err));
             callback(err);
         });
        
     } catch (err) {
         console.log(err);
-        //console.log('igroning this event');
+        
         cloudMetrics.LogHandlerFail(lambda_name)
         // err can be ignored
         callback(null, err);

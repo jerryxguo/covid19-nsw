@@ -17,10 +17,17 @@ class DataAgent {
     * @returns {Promise<Object>}
     */
     fetchData(request) {
-        if ("q" in request &&  ("lga_name19" in request.q ||"postcode" in request.q)){
+      
+        if ("q" in request && ("lga_name19" in request.q ||"postcode" in request.q) && "fields" in request){
             return this._query(this._url, request);
-        } else {
+        } else if("filters" in request){
             return this._queryWithFilter(this._url, request);
+        }
+        else{
+             return new Promise(function(resolve, reject) {
+            let err = new Error('request is invalid!');            
+            reject(err);
+            });
         }
     }
 
@@ -29,7 +36,7 @@ class DataAgent {
      * @param {String} url 
      * @param {Object} r 
     */
-    _query(url, r){
+     _query(url, r){
         let searchString = "";
         if("lga_name19" in r.q){
             searchString = r.q.lga_name19;
@@ -38,18 +45,37 @@ class DataAgent {
             searchString = r.q.postcode;
         }
       
-        var queryString = "https://"+ url+'?resource_id=' + r.resource_id + '&q={"' + r.fields + '":"'+ searchString + '"}&fields='
+        var queryString = '?resource_id=' + r.resource_id + '&q={"' + r.fields + '":"'+ searchString + '"}&fields='
          + r.fields + '&sort='+ r.fields+'&plain=false&distinct=true';
 
-        console.log("query:"+new URL(queryString));
+        
+        const options = {
+            hostname: url.substring(0, url.indexOf('/')),
+            port: 443,
+            path: '/'+ url.substring(url.indexOf('/')+1) + queryString,
+            method: 'GET'
+        };
+        console.log(options.hostname+options.path);
         return new Promise(function(resolve, reject) {
-            https.get(new URL(queryString), (res) => {
-                    res.on('data', (d) => {
-                        resolve(d);
-                    });                
-                }).on('error', (e) => {
-                    reject(Error(e));
+            https.request(options, res => {
+                // reject on bad status
+                if (res.statusCode < 200 || res.statusCode >= 300) {
+                    return reject(new Error('statusCode=' + res.statusCode));
+                }
+                let body = ''; 
+                res.setEncoding('utf8');
+                res.on('data', d =>{
+                  body+=d;
                 });
+                res.on('end', () => {
+                  resolve(body);
+                });
+              })              
+              .on('error', e => {
+                console.error(e);
+                reject(Error(e));
+              })
+              .end();           
         });
     }
 
@@ -77,17 +103,22 @@ class DataAgent {
             }
         };
         return new Promise(function(resolve, reject) {
-            https.request(options, res => {
+            var req = https.request(options, res => {
                 let body = ''; 
+                // reject on bad status
+                if (res.statusCode < 200 || res.statusCode >= 300) {
+                    return reject(new Error('statusCode=' + res.statusCode));
+                }
                 res.setEncoding('utf8');
                 res.on('data', d =>body+=d );
                 res.on('end', () => resolve(body));
-            })              
-            .on('error', e => {
+            });              
+            req.on('error', e => {
                 console.error(e);
                 reject(Error(e));
-            })
-            .write(data);
+            });
+            req.write(data);
+            req.end();
         });
         
     }
