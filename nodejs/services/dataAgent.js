@@ -24,9 +24,9 @@ class DataAgent {
             return this._queryWithFilter(this._url, request);
         }
         else{
-             return new Promise(function(resolve, reject) {
-            let err = new Error('request is invalid!');            
-            reject(err);
+            return new Promise(function(resolve, reject) {
+                let err = new Error('request is invalid!');            
+                reject(err);
             });
         }
     }
