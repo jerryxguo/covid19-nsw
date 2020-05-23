@@ -8,7 +8,7 @@
 
 export const environment = {
   production: false,
-  api: "https://lu63s4ejp0.execute-api.ap-southeast-2.amazonaws.com/api",
+  api: "/api",
   urls:{
     "getdata":"/getdata",
     "contact":"/contact"

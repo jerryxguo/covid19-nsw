@@ -38,7 +38,10 @@
               </div>
             </div>
             <div class="col-12">
-              <router-outlet></router-outlet>
+              <div>
+                <app-charts></app-charts>
+               </div>
+              <router-outlet (activate)="onOutletLoaded($event)"></router-outlet>
             </div>
           </div>
         </div>

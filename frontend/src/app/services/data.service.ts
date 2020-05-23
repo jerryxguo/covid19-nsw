@@ -49,9 +49,11 @@ export class DataService {
           return;
         }
         let options = [];
-        response.forEach(function(record:any){
-          options.push(record[field]);
-        }, this)
+        if(Array.isArray(response)){
+          response.forEach(function(record:any){
+            options.push(record[field]);
+          }, this)
+        }
         this.optionChange.next(options);
       },
       (error) => {
@@ -99,16 +101,17 @@ export class DataService {
             break;
           }
         }
-
-        response.forEach(function(record:Record){
-          let notification = record.notification_date.replace("T00:00:00", "");
-          for(let i = 0; i < records.length; i++){
-            if (records[i].date == notification){
-              records[i].count = records[i].count+1;
-              break;
+        if(Array.isArray(response)){
+          response.forEach(function(record:Record){
+            let notification = record.notification_date.replace("T00:00:00", "");
+            for(let i = 0; i < records.length; i++){
+              if (records[i].date == notification){
+                records[i].count = records[i].count+1;
+                break;
+              }
             }
-          }
-        }, this)
+          }, this)
+        }
 
         //format date
         let formattedData = []
