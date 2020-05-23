@@ -1,14 +1,19 @@
 'use strict';
 const AWS = require('aws-sdk');
-const DataAgent = require('./services/dataagent');
+const CloudMetrics = require('./services/cloudMetrics');
+const DataAgent = require('./services/dataAgent');
 
 const URL = "data.nsw.gov.au/data/api/3/action/datastore_search"
 var dataAgent = new DataAgent(URL);
+var cloudMetrics= new CloudMetrics()
 
 exports.handler = function (event, context, callback) {
- 
+    let lambda_name = "covid_nsw_nodejs";
     console.log(process.env.AWS_DEFAULT_REGION);
     try {
+        
+        let startTS = new Date();
+        cloudMetrics.logHandlerCall(lambda_name)
         if (event == null) {
             let err = new Error('No request body found!');
             //console.log(JSON.stringify(err));
@@ -16,9 +21,12 @@ exports.handler = function (event, context, callback) {
         }
         let requestBody = event;
         console.log(JSON.stringify(requestBody));
-        if (requestBody.filters==null||(requestBody.q == null && requestBody.fields!=null)) {
-            let err = new Error('No querys or filters found!');
-            //console.log("requestBody.q == null||requestBody.filters==null");
+        if ("q" in requestBody && ("lga_name19" in requestBody.q ||"postcode" in requestBody.q) && "fields" in requestBody){
+
+        } else if("filters" in requestBody){
+        }
+        else{
+            let err = new Error('requestBody is invalid!');            
             //console.log(err);
             throw err;
         }
@@ -26,12 +34,12 @@ exports.handler = function (event, context, callback) {
         dataAgent.fetchData(requestBody)
         .then(function(response) {
             var obj = JSON.parse(response);
-            console.log('response is received'+ JSON.stringify(obj.result));
-            callback(null, obj.result.records
-            );
+            //console.log('response is received'+ JSON.stringify(obj.result));
+            cloudMetrics.logHandlerTime(lambda_name, Date.now() - startTS)
+            callback(null, obj.result.records);
         })
         .catch(err => {
-            
+            cloudMetrics.LogHandlerFail(lambda_name)
             console.log(JSON.stringify(err));
             callback(err);
         });
@@ -39,7 +47,7 @@ exports.handler = function (event, context, callback) {
     } catch (err) {
         console.log(err);
         //console.log('igroning this event');
-   
+        cloudMetrics.LogHandlerFail(lambda_name)
         // err can be ignored
         callback(null, err);
         return;
