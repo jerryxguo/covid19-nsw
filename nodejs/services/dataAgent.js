@@ -9,6 +9,9 @@ class DataAgent {
     */
     constructor(url) {
         this._url = url;
+        if(process.env.REMOTE_SERVER_URL){
+            this._url = process.env.REMOTE_SERVER_URL;
+        }        
     }
 
     /**
@@ -45,14 +48,24 @@ class DataAgent {
             searchString = r.q.postcode;
         }
       
-        var queryString = '?resource_id=' + r.resource_id + '&q={"' + r.fields + '":"'+ searchString + '"}&fields='
-         + r.fields + '&sort='+ r.fields+'&plain=false&distinct=true';
+        let q ={};
+        q[r.fields] = searchString;
 
-        
+        let parameters = {
+            'resource_id' : r.resource_id,
+            'fields':r.fields,
+            'q': JSON.stringify(q),
+            'sort':r.fields,
+            'plain':false,
+            'distinct':true
+        };
+       
+
+        var queryString = Object.entries(parameters).map(([key, val]) => `${key}=${val}`).join('&');
         const options = {
             hostname: url.substring(0, url.indexOf('/')),
             port: 443,
-            path: '/'+ url.substring(url.indexOf('/')+1) + queryString,
+            path: '/'+ url.substring(url.indexOf('/')+1) + "?"+queryString,
             method: 'GET'
         };
         console.log(options.hostname+options.path);
