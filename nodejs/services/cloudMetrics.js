@@ -5,12 +5,14 @@ var awsCloudWatch = new AWS.CloudWatch({apiVersion: '2010-08-01'});
 
 class CloudMetrics {
     /**
+     * @param {string} nameSpace name space
+     * @param {string} metricName metric name
      * @param {Object} agent service for recording metrics
      */
-    constructor (agent=awsCloudWatch) {
+    constructor (nameSpace, metricName, agent=awsCloudWatch) {
         this._agent = agent;
-        this._nameSpace = 'JerryGuo';
-        this._metricName = 'LambdaNodeJS';
+        this._nameSpace = nameSpace;
+        this._metricName = metricName;
     }
 
     /**
@@ -55,7 +57,7 @@ class CloudMetrics {
      * log the 'failed' register
      * @param {String} name handler name
      */
-    LogHandlerFail(name) {
+    logHandlerFail(name) {
         var params = {
             MetricData: [ /* required */
                 {
@@ -89,8 +91,8 @@ class CloudMetrics {
     }
 
     /**
-     * log how many milliseconds it take
-     * @param {Number} ms milliseconds
+     * @param {String} name Handler name     
+     * @param {Number} ms milliseconds, log how many milliseconds it take
      */
     logHandlerTime(name, ms) {
         var params = {
