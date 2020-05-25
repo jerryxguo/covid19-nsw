@@ -1,6 +1,7 @@
 'use strict';
 const https = require("https");
 const { URL } = require('url');
+const logger = require('./logger');
 
 class DataAgent {
    
@@ -68,7 +69,7 @@ class DataAgent {
             path: '/'+ url.substring(url.indexOf('/')+1) + "?"+queryString,
             method: 'GET'
         };
-        console.log(options.hostname+options.path);
+        logger(options.hostname+options.path);
         return new Promise(function(resolve, reject) {
             https.request(options, res => {
                 // reject on bad status
