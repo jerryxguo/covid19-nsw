@@ -28,7 +28,7 @@ export const environment = {
     }
   ],
   resourceId:"21304414-1ff1-4243-a5d2-f52778048b29",
-  limit: 10000,
+  limit: 100000,
   min: 14,
   days: 21,
   max: 63,
